@@ -1,116 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Launching Soon</title>
-  <style>
-    /* CSS কোড */
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4A00E0, #8E2DE2);
-      color: #ffffff;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Banned</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    #countdown {
-      text-align: center;
-      animation: fadeIn 2s ease-in-out;
-    }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0e0e0e;
+            color: #ff4d4d;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
-      animation: bounce 2s infinite;
-    }
+        .container {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            max-width: 80%;
+        }
 
-    #timer {
-      font-size: 3em;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate, bounceIn 1s ease-in-out;
+            color: #ff5757;
+            text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff4d4d;
+        }
 
-    #timer span {
-      background-color: rgba(255, 255, 255, 0.2);
-      padding: 10px 20px;
-      border-radius: 8px;
-      animation: pulse 1s infinite alternate;
-    }
+        p {
+            font-size: 1.2rem;
+            color: #ffbaba;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1.5s ease-in-out forwards, shake 1s ease-in-out 3s infinite;
+        }
 
-    p {
-      color: #ffde59;
-      font-size: 1.2em;
-      margin-top: 10px;
-    }
+        .note {
+            font-size: 1rem;
+            color: #f08;
+            animation: colorShift 5s infinite, slideIn 2s ease-in-out;
+        }
 
-    /* Footer Style */
-    #footer {
-      position: absolute;
-      bottom: 10px;
-      color: #cccccc;
-      font-size: 1em;
-    }
+        .banned-by {
+            font-size: 1.2rem;
+            color: #ff9999;
+            margin-top: 1rem;
+            animation: bounceIn 2s ease-in-out forwards, colorShift 3s infinite;
+        }
 
-    /* Keyframes for animations */
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-20px); }
-      60% { transform: translateY(-10px); }
-    }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff4d4d, 0 0 30px #ff1a1a; }
+            100% { text-shadow: 0 0 20px #ff7575, 0 0 40px #ff4d4d, 0 0 60px #ff1a1a; }
+        }
 
-    @keyframes pulse {
-      from { transform: scale(1); }
-      to { transform: scale(1.1); }
-    }
-  </style>
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes colorShift {
+            0% { color: #ff4d4d; }
+            25% { color: #ff6666; }
+            50% { color: #ffbaba; }
+            75% { color: #ff4d4d; }
+            100% { color: #ffbaba; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-  <!-- HTML কোড -->
-  <div id="countdown">
-    <h1>আপনার ওয়েবসাইটটি শীঘ্রই চালু হবে</h1>
-    <div id="timer">
-      <span id="hours">06</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+    <div class="container">
+        <h1>Sorry, this website is banned!</h1>
+        <p>Your website license has expired. Please contact support for more details.</p>
+        <p class="note">Thank you for your understanding.</p>
+        <p class="banned-by">This website has been banned by Brilliant Contact.</p>
     </div>
-    <p>অপেক্ষা করুন...</p>
-  </div>
 
-  <!-- Footer Text -->
-  <div id="footer">• Brilliant Contact 2024</div>
+    <!-- Audio player for sound effect -->
+    <audio id="bannedSound" src="https://www.soundjay.com/button/sounds/beep-07.mp3" preload="auto"></audio>
 
-  <script>
-    // JavaScript কোড
-    let countdownTime = 21600; // ৬ ঘণ্টা = ২১৬০০ সেকেন্ড
+    <script>
+        // Play sound when the page loads
+        document.addEventListener("DOMContentLoaded", () => {
+            const audio = document.getElementById("bannedSound");
+            audio.play();
 
-    function updateCountdown() {
-      const hours = Math.floor(countdownTime / 3600);
-      const minutes = Math.floor((countdownTime % 3600) / 60);
-      const seconds = countdownTime % 60;
-
-      document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-      document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-      document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-
-      if (countdownTime > 0) {
-        countdownTime--;
-      } else {
-        document.getElementById("countdown").innerHTML = "<h1>ওয়েবসাইট চালু হয়েছে!</h1>";
-      }
-    }
-
-    setInterval(updateCountdown, 1000);
-  </script>
+            setTimeout(() => {
+                document.querySelector(".container").classList.add("shake");
+            }, 4000);
+        });
+    </script>
 </body>
 </html>
