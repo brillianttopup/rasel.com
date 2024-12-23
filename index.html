@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Banned</title>
+    <title>Login and Edit Feature</title>
     <style>
+        /* Basic Reset */
         * {
             margin: 0;
             padding: 0;
@@ -12,112 +13,284 @@
         }
 
         body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            background-color: #0e0e0e;
-            color: #ff4d4d;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
+            justify-content: center;
+            min-height: 100vh;
+            color: #ffffff;
         }
 
-        .container {
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-            max-width: 80%;
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            animation: glow 2s ease-in-out infinite alternate, bounceIn 1s ease-in-out;
-            color: #ff5757;
-            text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff4d4d;
+        .login-button, .edit-button {
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        p {
-            font-size: 1.2rem;
-            color: #ffbaba;
-            margin-bottom: 1rem;
-            animation: fadeInUp 1.5s ease-in-out forwards, shake 1s ease-in-out 3s infinite;
+        .login-button:hover, .edit-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.5);
         }
 
-        .note {
-            font-size: 1rem;
-            color: #f08;
-            animation: colorShift 5s infinite, slideIn 2s ease-in-out;
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 100px;
         }
 
-        .banned-by {
-            font-size: 1.2rem;
-            color: #ff9999;
-            margin-top: 1rem;
-            animation: bounceIn 2s ease-in-out forwards, colorShift 3s infinite;
+        .dynamic-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 25px;
+            background: linear-gradient(90deg, #43cea2, #185a9d);
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dynamic-button img {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .dynamic-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(67, 206, 162, 0.5);
+        }
+
+        #login-form, #popup-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        #login-form input, #popup-form input {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #login-form button, #popup-form button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #login-form .login-submit, #popup-form .save-button {
+            background: #43cea2;
+            color: white;
+        }
+
+        #login-form .login-submit:hover, #popup-form .save-button:hover {
+            background: #185a9d;
+        }
+
+        #login-form .close-button, #popup-form .close-button {
+            background: #ff7e5f;
+            color: white;
+        }
+
+        #login-form .close-button:hover, #popup-form .close-button:hover {
+            background: #feb47b;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff4d4d, 0 0 30px #ff1a1a; }
-            100% { text-shadow: 0 0 20px #ff7575, 0 0 40px #ff4d4d, 0 0 60px #ff1a1a; }
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            60% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes fadeInUp {
-            0% { transform: translateY(30px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        @keyframes colorShift {
-            0% { color: #ff4d4d; }
-            25% { color: #ff6666; }
-            50% { color: #ffbaba; }
-            75% { color: #ff4d4d; }
-            100% { color: #ffbaba; }
-        }
-
-        @keyframes slideIn {
-            0% { transform: translateY(20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+        #login-form, #popup-form {
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Sorry, this website is banned!</h1>
-        <p>Your website license has expired. Please contact support for more details.</p>
-        <p class="note">Thank you for your understanding.</p>
-        <p class="banned-by">This website has been banned by Brilliant Contact.</p>
+    <div class="header">
+        <button class="login-button" id="login-button">Login</button>
+        <button class="edit-button" id="edit-button" style="display: none;">Edit</button>
+    </div>
+    <div id="overlay"></div>
+
+    <div id="login-form">
+        <h3 style="text-align: center; color: #333;">Login</h3>
+        <input type="text" id="username" placeholder="Enter Username" required>
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <button class="login-submit" id="login-submit">Login</button>
     </div>
 
-    <!-- Audio player for sound effect -->
-    <audio id="bannedSound" src="https://www.soundjay.com/button/sounds/beep-07.mp3" preload="auto"></audio>
+    <div id="popup-form">
+        <h3 style="text-align: center; color: #333;">Add/Edit Button</h3>
+        <input type="text" id="button-name" placeholder="Enter Button Name" required>
+        <input type="text" id="button-link" placeholder="Enter Button Link" required>
+        <input type="text" id="button-logo" placeholder="Enter Button Logo URL" required>
+        <button class="save-button" id="save-button">Save</button>
+        <button class="close-button" id="close-popup">Close</button>
+    </div>
+
+    <div class="button-container" id="button-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
 
     <script>
-        // Play sound when the page loads
-        document.addEventListener("DOMContentLoaded", () => {
-            const audio = document.getElementById("bannedSound");
-            audio.play();
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-            setTimeout(() => {
-                document.querySelector(".container").classList.add("shake");
-            }, 4000);
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        const loginButton = document.getElementById('login-button');
+        const editButton = document.getElementById('edit-button');
+        const loginForm = document.getElementById('login-form');
+        const popupForm = document.getElementById('popup-form');
+        const loginSubmit = document.getElementById('login-submit');
+        const saveButton = document.getElementById('save-button');
+        const overlay = document.getElementById('overlay');
+        const closePopup = document.getElementById('close-popup');
+        const buttonContainer = document.getElementById('button-container');
+
+        const USERNAME = "nasrin";
+        const PASSWORD = "rahiyan";
+
+        // Load buttons from Firestore
+        function loadButtons() {
+            buttonContainer.innerHTML = '';
+            db.collection('buttons').get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    const buttonData = doc.data();
+                    const newButton = document.createElement('a');
+                    newButton.className = 'dynamic-button';
+                    newButton.href = buttonData.link;
+                    newButton.innerHTML = `<img src="${buttonData.logo}" alt="Logo"> ${buttonData.name}`;
+                    buttonContainer.appendChild(newButton);
+                });
+            }).catch(error => console.error("Error getting buttons: ", error));
+        }
+
+        loginButton.addEventListener('click', () => {
+            loginForm.style.display = 'block';
+            overlay.style.display = 'block';
         });
+
+        loginSubmit.addEventListener('click', () => {
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+
+            if (usernameInput === USERNAME && passwordInput === PASSWORD) {
+                alert('Login Successful!');
+                loginForm.style.display = 'none';
+                overlay.style.display = 'none';
+                loginButton.style.display = 'none';
+                editButton.style.display = 'block';
+                loadButtons(); // Load buttons from Firestore
+            } else {
+                alert('Invalid username or password!');
+            }
+        });
+
+        overlay.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            popupForm.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        editButton.addEventListener('click', () => {
+            popupForm.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        saveButton.addEventListener('click', () => {
+            const name = document.getElementById('button-name').value.trim();
+            const link = document.getElementById('button-link').value.trim();
+            const logo = document.getElementById('button-logo').value.trim();
+
+            if (name && link && logo) {
+                db.collection('buttons').add({ name, link, logo })
+                    .then(() => {
+                        alert('Button added successfully!');
+                        loadButtons(); // Load buttons after adding
+                        popupForm.style.display = 'none';
+                        overlay.style.display = 'none';
+                    })
+                    .catch(error => console.error("Error adding button: ", error));
+            } else {
+                alert('Please fill all fields!');
+            }
+        });
+
+        closePopup.addEventListener('click', () => {
+            popupForm.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        loadButtons(); // Initial load of buttons
     </script>
 </body>
 </html>
